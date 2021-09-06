@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
+const { default: axios } = require('axios');
 const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
@@ -30,12 +31,20 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Pokemon, Tipo } = sequelize.models;
+const { Pokemon, Type } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Pokemon.belongsToMany(Tipo, {through:'PokemonTypes'});
-Tipo.belongsToMany(Pokemon,{through:'PokemonTypes'});
+Pokemon.belongsToMany(Type, {through:'PokemonTypes'});
+Type.belongsToMany(Pokemon,{through:'PokemonTypes'});
+
+  axios.get('https://pokeapi.co/api/v2/type').then((tipos)=>{
+   Promise.all(tipos.data.results.map((tipo)=>Type.findOrCreate({where:{name: tipo.name}}))).then((values)=>{console.log('Tipos creados', JSON.stringify(values))})
+    
+  });
+  
+  
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

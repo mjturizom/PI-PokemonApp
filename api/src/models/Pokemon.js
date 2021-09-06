@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       vida: {
         type: DataTypes.INTEGER,
@@ -41,12 +42,13 @@ module.exports = (sequelize) => {
     }
   );
   sequelize.define(
-    "tipo",
+    "type",
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue:'unknown'
+        defaultValue: "unknown",
+        unique: true,
       },
     },
     {
