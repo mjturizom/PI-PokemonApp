@@ -27,7 +27,6 @@ router.get("/pokemons", (req, res) => {
 
         Pokemon.findOne({ where: { name: req.query.name } }).then(
           (pokemonAtDb) => {
-            //console.log(JSON.stringify(pokemonAtDb));
             res.json({ pokemon, pokemonAtDb });
           }
         );
@@ -55,6 +54,7 @@ router.get("/pokemons", (req, res) => {
         .then((values) => {
           let response = values.map((value) => {
             return {
+              id: value.data.id,
               name: value.data.name,
               imagen: value.data.sprites.other.dream_world.front_default,
               type: value.data.types.map((type) => {
@@ -62,9 +62,20 @@ router.get("/pokemons", (req, res) => {
               }),
             };
           });
-          Pokemon.findAll().then((pokemonAtDb) =>
-            res.json({ response, pokemonAtDb })
-          );
+          Pokemon.findAll({include: Type,}).then((pokemonAtDb) => {
+            console.log(pokemonAtDb);
+            res.json({
+              pokemonAtAPI: response,
+              pokemonAtDb: pokemonAtDb.map((pokemon) => {
+                return {
+                  id: pokemon.dataValues.id,
+                  name: pokemon.dataValues.name,
+                  imagen: pokemon.dataValues.imagen,
+                  types: pokemon.dataValues.types.map((type) => type.dataValues.name)
+                };
+              }),
+            });
+          });
           //res.json(response);
         })
         .catch((reason) => {
@@ -76,32 +87,60 @@ router.get("/pokemons", (req, res) => {
   });
 });
 router.get("/pokemons/:idPokemon", (req, res) => {
-  axios
-    .get(`https://pokeapi.co/api/v2/pokemon/${req.params.idPokemon}`)
-    .then((resp) => {
-      const pokemon = {
-        id: resp.data.id,
-        name: resp.data.name,
-        imagen: resp.data.sprites.other.dream_world.front_default,
-        vida: resp.data.stats[0].base_stat,
-        fuerza: resp.data.stats[1].base_stat,
-        defensa: resp.data.stats[2].base_stat,
-        velocidad: resp.data.stats[5].base_stat,
-        altura: resp.data.height,
-        peso: resp.data.weight,
-      };
-      res.json(pokemon);
-    })
-    .catch((reason) => {
+  if (req.params.idPokemon < 1)
+    res.status(400).json({ message: "Id invalido" });
+  else if (req.params.idPokemon < 3001 || req.params.idPokemon > 10000) {
+    axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${req.params.idPokemon}`)
+      .then((resp) => {
+        const pokemon = {
+          id: resp.data.id,
+          name: resp.data.name,
+          imagen: resp.data.sprites.other.dream_world.front_default,
+          vida: resp.data.stats[0].base_stat,
+          fuerza: resp.data.stats[1].base_stat,
+          defensa: resp.data.stats[2].base_stat,
+          velocidad: resp.data.stats[5].base_stat,
+          altura: resp.data.height,
+          peso: resp.data.weight,
+          types: resp.data.types.map((type) => type.type.name),
+        };
+        res.json(pokemon);
+      })
+      .catch((reason) => {
+        res.status(404).send({
+          message: `Pokemón con id ${req.params.idPokemon} no se encuentra registrado, prueba un id valido`,
+        });
+      });
+  } else {
+    Pokemon.findOne({
+      where: { id: req.params.idPokemon },
+      include: Type,
+    }).then((pokemon) => {
+      if (pokemon) {
+        return res.json({
+          id: pokemon.dataValues.id,
+          name: pokemon.dataValues.name,
+          imagen: pokemon.dataValues.imagen,
+          vida: pokemon.dataValues.vida,
+          fuerza: pokemon.dataValues.fuerza,
+          defensa: pokemon.dataValues.defensa,
+          velocidad: pokemon.dataValues.velocidad,
+          altura: pokemon.dataValues.altura,
+          peso: pokemon.dataValues.peso,
+          types: pokemon.dataValues.types.map((type) => type.dataValues.name),
+        });
+      }
       res.status(404).send({
         message: `Pokemón con id ${req.params.idPokemon} no se encuentra registrado, prueba un id valido`,
       });
     });
+  }
 });
 
-router.get("/types",(req,res)=>{
- Type.findAll().then((types)=>res.json(types));
-})
+router.get("/types", (req, res) => {
+  Type.findAll().then((types) => res.json(types));
+});
 
 router.post("/pokemons", (req, res) => {
   const { name, vida, fuerza, defensa, velocidad, altura, peso, type } =
@@ -135,9 +174,7 @@ router.post("/pokemons", (req, res) => {
         type.map((type) => Type.findOrCreate({ where: { name: type } }))
       )
         .then((values) => {
-          console.log(JSON.stringify(values));
           result.addTypes(values.map((t) => t[0]));
-          console.log(result.toJSON());
           res.json(result.toJSON());
         })
         .catch((reason) => {
