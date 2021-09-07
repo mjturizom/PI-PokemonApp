@@ -26,7 +26,7 @@ const {Type } =require('./src/db.js')
 conn.sync().then(() => {
   //Cargamos los tipos desde la API a DB cuando conectamos
   axios.get('https://pokeapi.co/api/v2/type').then((tipos)=>{
-   Promise.all(tipos.data.results.map((tipo)=>Type.findOrCreate({where:{name: tipo.name}}))).then((values)=>{console.log('Tipos creados', JSON.stringify(values))})
+   Promise.all(tipos.data.results.map((tipo)=>Type.findOrCreate({where:{name: tipo.name}}))).then((values)=>{console.log('Tipos creados')})
     
   });
   server.listen(3001, () => {
