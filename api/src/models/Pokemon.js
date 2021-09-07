@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
   sequelize.define(
     "pokemon",
     {
+    
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,6 +38,7 @@ module.exports = (sequelize) => {
       },
     },
     {
+      
       timestamps: false,
       createdAt: false,
     }
