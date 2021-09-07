@@ -12,6 +12,10 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
+      imagen:{
+        type: DataTypes.STRING,
+        defaultValue: null
+      },
       vida: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
