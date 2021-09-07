@@ -98,6 +98,11 @@ router.get("/pokemons/:idPokemon", (req, res) => {
       });
     });
 });
+
+router.get("/types",(req,res)=>{
+ Type.findAll().then((types)=>res.json(types));
+})
+
 router.post("/pokemons", (req, res) => {
   const { name, vida, fuerza, defensa, velocidad, altura, peso, type } =
     req.body;
@@ -114,8 +119,7 @@ router.post("/pokemons", (req, res) => {
     return res
       .status(400)
       .send({ message: "Faltan datos obligatorios para crear un pokemon" });
- 
-  
+
   const nuevoPokemon = Pokemon.create({
     name,
     vida,
@@ -127,8 +131,9 @@ router.post("/pokemons", (req, res) => {
   });
   nuevoPokemon
     .then((result) => {
-      let typeToAdd = [];
-      Promise.all(type.map((type) => Type.findOrCreate({ where: { name: type } })))
+      Promise.all(
+        type.map((type) => Type.findOrCreate({ where: { name: type } }))
+      )
         .then((values) => {
           console.log(JSON.stringify(values));
           result.addTypes(values.map((t) => t[0]));
@@ -140,17 +145,12 @@ router.post("/pokemons", (req, res) => {
             .status(400)
             .json({ message: "El tipo recibido no es permitido en DB" });
         });
-       result.addTypes(typeToAdd);
-
-      
     })
     .catch((reason) => {
-      res
-        .status(400)
-        .send({
-          message:
-            "No se creó el pokemon correctamente, seguramente el nombre ya existe",
-        });
+      res.status(400).send({
+        message:
+          "No se creó el pokemon correctamente, seguramente el nombre ya existe",
+      });
     });
 });
 
