@@ -57,16 +57,16 @@ router.get("/pokemons", (req, res) => {
               id: value.data.id,
               name: value.data.name,
               imagen: value.data.sprites.other.dream_world.front_default,
-              type: value.data.types.map((type) => {
+              types: value.data.types.map((type) => {
                 return type.type.name;
               }),
             };
           });
           Pokemon.findAll({include: Type,}).then((pokemonAtDb) => {
             console.log(pokemonAtDb);
-            res.json({
-              pokemonAtAPI: response,
-              pokemonAtDb: pokemonAtDb.map((pokemon) => {
+            res.status(200).send([
+              response,
+              pokemonAtDb.map((pokemon) => {
                 return {
                   id: pokemon.dataValues.id,
                   name: pokemon.dataValues.name,
@@ -74,7 +74,7 @@ router.get("/pokemons", (req, res) => {
                   types: pokemon.dataValues.types.map((type) => type.dataValues.name)
                 };
               }),
-            });
+            ]);
           });
           //res.json(response);
         })
