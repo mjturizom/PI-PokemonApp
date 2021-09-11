@@ -8,32 +8,33 @@ export default function Home({ types, handleClick }) {
       
       <h3>Filter by: Type</h3>
       <select name="Type">
+      <option value='allType'>All</option>
         {types.map((type) => {
-          return <option key={type.id}>{type.name}</option>;
+          return <option key={type.id} value={type.name}>{type.name}</option>;
         })}
       </select>{" "}
-      <input type="radio" name="typePok" value="1" />
+      <input type="radio" name="typePok" value="exis" />
       Existing
-      <input type="radio" name="typePok" value="2" />
+      <input type="radio" name="typePok" value="creat" />
       Created
       <h3>Order by</h3>
       <select>
-        <option>A-Z</option>
-        <option>Attack</option>
+      <option value='allOrder'>All</option>
+        <option value='AZ'>A-Z</option>
+        <option value='attack'>Attack</option>
       </select>{" "}
-      <input type="radio" name="order" value="1" />
+      <input type="radio" name="order" value="asc" />
       Asc
-      <input type="radio" name="order" value="2" />
+      <input type="radio" name="order" value="des" />
       Desc
-      <button>Filters</button>
       <button
         onClick={(e) => {
           handleClick(e);
         }}
       >
-        Reset Filters || Orders
+        Reset
       </button>
-      <Link to="/pokemon">Crear Pokemon</Link>
+      <Link className='button' to="/pokemon">Crear Pokemon</Link>
     </div>
   );
 }
