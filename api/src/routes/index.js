@@ -41,16 +41,17 @@ router.get("/pokemons", (req, res) => {
   let pokemons = [];
 
   axios.get("https://pokeapi.co/api/v2/pokemon").then((resp) => {
-    pokemons = pokemons.concat([
-      { next: resp.data.next, previous: resp.data.previous },
-      resp.data.results,
-    ]);
+    pokemons = pokemons.concat(
+      // { next: resp.data.next, previous: resp.data.previous },
+      resp.data.results
+    );
     axios.get(resp.data.next).then((resp) => {
-      pokemons = pokemons.concat([
-        { next: resp.data.next, previous: resp.data.previous },
-        resp.data.results,
-      ]);
-      Promise.all(pokemons[1].map((pokemon) => axios.get(pokemon.url)))
+      pokemons = pokemons.concat(
+        // { next: resp.data.next, previous: resp.data.previous },
+        resp.data.results
+      );
+
+      Promise.all(pokemons.map((pokemon) => axios.get(pokemon.url)))
         .then((values) => {
           let response = values.map((value) => {
             return {
@@ -62,18 +63,21 @@ router.get("/pokemons", (req, res) => {
               }),
             };
           });
-          Pokemon.findAll({include: Type,}).then((pokemonAtDb) => {
-            res.status(200).send([
-              response,
-              pokemonAtDb.map((pokemon) => {
-                return {
-                  id: pokemon.dataValues.id,
-                  name: pokemon.dataValues.name,
-                  imagen: pokemon.dataValues.imagen,
-                  types: pokemon.dataValues.types.map((type) => type.dataValues.name)
-                };
-              }),
-            ]);
+          Pokemon.findAll({ include: Type }).then((pokemonAtDb) => {
+            res.status(200).send(
+              response.concat(
+                pokemonAtDb.map((pokemon) => {
+                  return {
+                    id: pokemon.dataValues.id,
+                    name: pokemon.dataValues.name,
+                    imagen: pokemon.dataValues.imagen,
+                    types: pokemon.dataValues.types.map(
+                      (type) => type.dataValues.name
+                    ),
+                  };
+                })
+              )
+            );
           });
           //res.json(response);
         })
