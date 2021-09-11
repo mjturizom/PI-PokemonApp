@@ -63,7 +63,6 @@ router.get("/pokemons", (req, res) => {
             };
           });
           Pokemon.findAll({include: Type,}).then((pokemonAtDb) => {
-            console.log(pokemonAtDb);
             res.status(200).send([
               response,
               pokemonAtDb.map((pokemon) => {
