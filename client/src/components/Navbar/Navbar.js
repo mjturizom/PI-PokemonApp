@@ -2,21 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './Navbar.css'
 
-export default function Home({ types, handleClick }) {
+export default function Home({ types, handleClick, filterByType, filterByOrigin }) {
   return (
     <div className='navbar'>
       
       <h3>Filter by: Type</h3>
-      <select name="Type">
+      <select name="Type" onChange={(e)=>{filterByType(e.target.value)}}>
       <option value='allType'>All</option>
         {types.map((type) => {
           return <option key={type.id} value={type.name}>{type.name}</option>;
         })}
-      </select>{" "}
-      <input type="radio" name="typePok" value="exis" />
+      </select>
+      <form onChange={(e)=>{filterByOrigin(e.target.value)}}>
+      <input type="radio" name="origin" value="all" />
+      All
+      <input type="radio" name="origin" value="exis" />
       Existing
-      <input type="radio" name="typePok" value="creat" />
+      <input type="radio" name="origin" value="creat" />
       Created
+     </form>
       <h3>Order by</h3>
       <select>
       <option value='allOrder'>All</option>
