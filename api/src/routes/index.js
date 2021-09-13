@@ -58,6 +58,7 @@ router.get("/pokemons", (req, res) => {
               id: value.data.id,
               name: value.data.name,
               imagen: value.data.sprites.other.dream_world.front_default,
+              fuerza:value.data.stats[1].base_stat,
               types: value.data.types.map((type) => {
                 return type.type.name;
               }),
@@ -70,6 +71,7 @@ router.get("/pokemons", (req, res) => {
                   return {
                     id: pokemon.dataValues.id,
                     name: pokemon.dataValues.name,
+                    fuerza:pokemon.dataValues.fuerza,
                     imagen: pokemon.dataValues.imagen,
                     types: pokemon.dataValues.types.map(
                       (type) => type.dataValues.name
@@ -165,6 +167,7 @@ router.post("/pokemons", (req, res) => {
   const nuevoPokemon = Pokemon.create({
     name,
     vida,
+    imagen:'https://www.svgrepo.com/show/276263/egg-pokemon.svg',
     fuerza,
     defensa,
     velocidad,
