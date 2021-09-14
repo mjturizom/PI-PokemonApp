@@ -9,36 +9,50 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.get("/pokemons", (req, res) => {
+  let pokemons = [];
   if (req.query.name) {
-    return axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${req.query.name}`)
+    const pokemonName=req.query.name.toLowerCase();
+    return Pokemon.findOne({ where: { name: pokemonName },include: Type }).then(
+      (pokemonAtDb) => {
+        if(pokemonAtDb)pokemons=[...pokemons, {
+          id:pokemonAtDb.dataValues.id,
+          name:pokemonAtDb.dataValues.name,
+          imagen:pokemonAtDb.dataValues.imagen,
+          fuerza:pokemonAtDb.dataValues.fuerza,
+          types:pokemonAtDb.dataValues.types.map(
+            (type) => type.dataValues.name
+          )
+        }];
+       axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
       .then((resp) => {
-        const pokemon = {
+        pokemons =pokemons.concat( [{
           id: resp.data.id,
           name: resp.data.name,
           imagen: resp.data.sprites.other.dream_world.front_default,
           vida: resp.data.stats[0].base_stat,
           fuerza: resp.data.stats[1].base_stat,
-          defensa: resp.data.stats[2].base_stat,
-          velocidad: resp.data.stats[5].base_stat,
-          altura: resp.data.height,
-          peso: resp.data.weight,
-        };
-
-        Pokemon.findOne({ where: { name: req.query.name } }).then(
-          (pokemonAtDb) => {
-            res.json({ pokemon, pokemonAtDb });
-          }
-        );
+          types: resp.data.types.map((type) => {
+            return type.type.name;
+          }),
+        }]);
+        return res.json(pokemons);
+        
       })
       .catch((reason) => {
-        res.status(404).send({
+        if (pokemons.length) return res.json(pokemons);
+        res.status(404).json({
           message:
             "Pokemón no encontrado, prueba escribir el nombre correctamente o con otro pokemón",
         });
       });
+        
+      }
+    );
+    
+      
   }
-  let pokemons = [];
+  
 
   axios.get("https://pokeapi.co/api/v2/pokemon").then((resp) => {
     pokemons = pokemons.concat(
