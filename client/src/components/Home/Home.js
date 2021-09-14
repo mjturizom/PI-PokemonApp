@@ -75,11 +75,10 @@ export default function Home() {
     }
     if (!isOneChecked) dispatch(orderBy(orderType, "asc"));
     setOrden("Ordenado" + orderType);
-    console.log(orden);
+    if (orden){}
   }
   function OrderWay(orderWay) {
     let orderType = "";
-    console.log("seleccion:", orderWay);
     const tags = document.getElementById("orderBy").children;
 
     for (const tag of tags) {
