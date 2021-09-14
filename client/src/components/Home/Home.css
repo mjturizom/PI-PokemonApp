@@ -3,3 +3,11 @@
     flex-flow: wrap;
     justify-content: space-around;
 }
+h1{
+    margin:0;
+    margin-left: 2vw;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+}
