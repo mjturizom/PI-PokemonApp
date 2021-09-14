@@ -2,6 +2,7 @@ import React from "react";
 //importo Hooks
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 //importo Action
 import {
   getPokemons,
@@ -109,6 +110,7 @@ export default function Home() {
         {pokemons?
           (pokemons.length? pokemonsToPage.map((pokemon) => {
             return (
+              
               <Card
                 key={pokemon.id}
                 id={pokemon.id}
@@ -116,6 +118,7 @@ export default function Home() {
                 image={pokemon.imagen}
                 types={pokemon.types}
               />
+             
             );
           }):<span>No se encuentra el pokemon, intenta otro nombre</span>):<Spinner/>}
       </div>

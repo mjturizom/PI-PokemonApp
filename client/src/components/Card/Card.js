@@ -1,11 +1,12 @@
 import React from "react";
 import "./Card.css";
-
+import { Link } from "react-router-dom";
 export default function Card({ id, name, image, types }) {
   let i = 0;
 
   return (
-    <div className="card">
+    <div >
+       <Link className="card" key={id} to={"/pokemons/"+id}>
       <h3>{name}</h3>
       <img srcSet={image} alt="No img" />
       <h4>Types</h4>
@@ -19,6 +20,7 @@ export default function Card({ id, name, image, types }) {
           );
         })}
       </div>
+      </Link>
     </div>
   );
 }
