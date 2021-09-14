@@ -44,15 +44,14 @@ export function getPokemon(pokemon) {
       .catch((resp)=>dispatch({ type: "GET_POKEMON", payload: [] }));
   };
 }
-// export function getPokemonDetail(id) {
-//   return function (dispatch) {
-//     return fetch("http://localhost:3001/pokemons/" + id)
-//       .then((pokemonDetail) => pokemonDetail.json())
-//       .then((pokemonDetailJson) => {
-//         dispatch({ type: "GET_POKEMON", payload: pokemonDetailJson });
-//       });
-//   };
-// }
+export function getPokemonDetail(id) {
+  return function (dispatch) {
+    return axios("http://localhost:3001/pokemons/" + id)
+      .then((pokemonDetail) => {
+        dispatch({ type: "GET_POKEMON", payload: pokemonDetail.data});
+      });
+  };
+}
 
 export function addPokemon(pokemon) {
   return function (dispatch) {

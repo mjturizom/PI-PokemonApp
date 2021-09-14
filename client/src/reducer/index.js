@@ -3,6 +3,7 @@ const initialState = {
   pokemonsToFilterByType: [],
   pokemonsToFilterByOrigin: [],
   types: [],
+  pokemonDetail:{}
 };
 //funciones para ordenar por name
 function sortBynameAsc(a, b) {
@@ -39,7 +40,7 @@ function rootReducer(state = initialState, action) {
   if(action.type==='GET_POKEMON'){
     return {
         ...state,
-        pokemons:action.payload
+        pokemonDetail:action.payload
     }
   }
 
