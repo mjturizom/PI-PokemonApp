@@ -9,6 +9,8 @@
   flex-direction: column;
   width: fit-content;
   float: left;
+  text-decoration: none;
+  color: inherit;
 }
 h3,h4{
     margin: 1vw;

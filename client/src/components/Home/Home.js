@@ -2,7 +2,7 @@ import React from "react";
 //importo Hooks
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+
 //importo Action
 import {
   getPokemons,
