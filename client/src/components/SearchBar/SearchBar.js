@@ -30,7 +30,7 @@ export default function SearchBar() {
           value={name}
         />
         <button onClick={(e)=>handleSubmit(e)} type="submit" className="searchButton">
-          <FaSearchPlus />
+          <FaSearchPlus className='iconSearch' />
         </button>
       </div>
     </div>

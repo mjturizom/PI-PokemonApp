@@ -7,7 +7,7 @@ export default function Page({ nPages, Page }) {
         {nPages &&
           nPages.map((page) => {
             return (
-              <li key={page} onClick={() => Page(page)}>
+              <li className="liPges" key={page} onClick={() => Page(page)}>
                 {page}
               </li>
             );

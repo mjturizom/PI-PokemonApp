@@ -6,7 +6,7 @@ export default function Card({ id, name, image, types }) {
 
   return (
     <div >
-       <Link className="card" key={id} to={"/pokemons/"+id}>
+       <Link className="card with-box-shadow" key={id} to={"/pokemons/"+id}>
       <h3>{name}</h3>
       <img srcSet={image} alt="No img" />
       <h4>Types</h4>

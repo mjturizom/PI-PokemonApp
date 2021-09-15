@@ -5,8 +5,9 @@
     padding: 0.1rem;
     margin: 1vw 0;
 }
-li{
-    border: solid 1px;
+.liPges{
+    display: inline;
+    border: solid 0.3vw #5C527F;
     border-radius: 50%;
     padding: 0.1rem;
     margin: 0.4vw;
@@ -14,5 +15,7 @@ li{
     width: 1rem;
     text-align: center;
     font: icon;
-    
+    color: #5C527F;
+    font-weight: bold;
+    background-color: aliceblue;
 }

@@ -1,0 +1,36 @@
+.landing{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-image: url("fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.btnlanding{
+    display: flex;
+    margin: 0 21vw;
+    text-decoration: none;
+}
+.btnToHome{
+    border: none;
+    padding: 0.5rem;
+    border-radius: 999rem;
+    cursor: pointer;
+    height: 100%;
+    width: 20%;
+    background-color: rgb(10, 47, 90);
+    color: rgb(195, 183, 207);
+    
+}
+.btnToHome:hover{
+    background-color: rgb(195, 183, 207);
+    color: rgb(10, 47, 90);
+}

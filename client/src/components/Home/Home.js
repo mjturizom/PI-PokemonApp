@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 //importo Hooks
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -93,7 +94,13 @@ export default function Home() {
     <>
     <div className='header'>
       <h1>PokeApp</h1>
+      <div className='crearBuscar'>
+
       <SearchBar/>
+      <Link className="button" to="/newpokemon">
+        Crear Pokemon
+      </Link>
+      </div>
       </div>
       {types && (
         <Navbar

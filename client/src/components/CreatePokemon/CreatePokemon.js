@@ -43,15 +43,15 @@ export default function CreatePokemon() {
       setpokemonToPost({
         ...pokemonToPost,
         [e.target.name]:
-          e.target.name === "name" ? e.target.value : parseInt(e.target.value),
+          e.target.name === "name" ? e.target.value.toLowerCase() : parseInt(e.target.value),
       });
     }
-    console.log(pokemonToPost);
+    
   }
 
   function handleOnSubmit() {
     
-    console.log(pokemonToPost);
+    
     dispatch(addPokemon(pokemonToPost));
     setpokemonToPost({
       name: "",

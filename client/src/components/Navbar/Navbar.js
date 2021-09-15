@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import "./Navbar.css";
 
 export default function Navbar({
@@ -13,7 +13,7 @@ export default function Navbar({
   return (
     <div className="navbar">
       <h3>Filter by: Type</h3>
-      <select
+      <select className='select'
         
         name="Type"
         onChange={(e) => {
@@ -28,7 +28,7 @@ export default function Navbar({
             </option>
           );
         })}
-      </select>
+      </select >
       <form
         onChange={(e) => {
           filterByOrigin(e.target.value);
@@ -44,7 +44,7 @@ export default function Navbar({
         Created
       </form>
       <h3>Order by</h3>
-      <select
+      <select className='select'
         id="orderBy"
         onChange={(e) => {
           orderBy(e.target.value);
@@ -67,16 +67,14 @@ export default function Navbar({
         <input type="radio" name="order" value="des" />
         Desc
       </form>
-      <button
+    <button className='button'
         onClick={(e) => {
           handleClick(e);
         }}
       >
         Reset
       </button>
-      <Link className="button" to="/newpokemon">
-        Crear Pokemon
-      </Link>
+      
     </div>
   );
 }

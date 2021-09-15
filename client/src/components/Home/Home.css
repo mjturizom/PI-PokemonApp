@@ -11,3 +11,28 @@ h1{
     display: flex;
     justify-content: space-between;
 }
+.button {
+    
+    border-radius: 999rem;
+    padding: 0.5vw;
+    text-decoration: none;
+    margin: 0.1vw;
+    font-weight: 600;
+    font-size: 1.5vw;
+    color: #ffffff;
+    background-color: #5C527F;
+    border: 0.1vw solid #373b5e;
+    outline: none;
+    margin-right: 1vw;
+    text-align: center
+  }
+  .button:hover{
+    color: #166085;
+    background-color: #b494e7;
+  }
+
+  .crearBuscar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }

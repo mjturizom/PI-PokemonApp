@@ -48,7 +48,7 @@ export function getPokemonDetail(id) {
   return function (dispatch) {
     return axios("http://localhost:3001/pokemons/" + id)
       .then((pokemonDetail) => {
-        dispatch({ type: "GET_POKEMON", payload: pokemonDetail.data});
+        dispatch({ type: "GET_POKEMON_DETAIL", payload: pokemonDetail.data});
       });
   };
 }

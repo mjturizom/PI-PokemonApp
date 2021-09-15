@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage.js";
 import Home from "./components/Home/Home.js";
 import CreatePokemon from "./components/CreatePokemon/CreatePokemon.js"
+import PokemonDetail from "./components/PokemonDetail/PokemonDetail";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/home" component={Home} />
-          <Route path="/pokemons/:id" component={LandingPage} />
+          <Route path="/pokemons/:id" component={PokemonDetail} />
           <Route path="/newpokemon" component={CreatePokemon} />
         </Switch>
       </React.Fragment>
