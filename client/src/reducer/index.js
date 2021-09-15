@@ -36,11 +36,17 @@ function rootReducer(state = initialState, action) {
       pokemonsToFilterByOrigin: action.payload,
     };
   }
-
-  if(action.type==='GET_POKEMON'){
+  
+  if(action.type==="GET_POKEMON_DETAIL"){
     return {
         ...state,
         pokemonDetail:action.payload
+    }
+  }
+  if(action.type==='GET_POKEMON'){
+    return {
+        ...state,
+        pokemons:action.payload
     }
   }
 
